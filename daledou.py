@@ -521,6 +521,15 @@ def 乐斗():
         if '体力值不足' in HTML:
             break
 
+    if yaml := read_yaml('乐斗'):
+        for i in range(2, yaml):
+            get(f'cmd=friendlist&page={i}')
+            for u in findall(r'：.*?B_UID=(\d+)'):
+                get(f'cmd=fight&B_UID={u}')
+                find(r'删</a><br />(.*?)，')
+                if '体力值不足' in HTML:
+                    break
+
     # 侠侣
     get('cmd=viewxialv&page=1')
     try:
@@ -2121,8 +2130,8 @@ def 背包():
             get(f'cmd=store&store_type=0&page={p}')
             data += findall(r'宝箱</a>数量：.*?id=(\d+).*?使用')
 
-    # 锦囊、属性
-    for t in [5, 2]:
+    # 锦囊
+    for t in [5]:
         get(f'cmd=store&store_type={t}&page=1')
         data += findall(r'数量：.*?id=(\d+).*?使用')
 
