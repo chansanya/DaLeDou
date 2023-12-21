@@ -143,28 +143,24 @@ class DaLeDou:
     def _clean_cookie(self, cookie: str) -> str:
         '''清洁大乐斗cookie
 
-        :return: 'RK=xxx; ptcz=xxx; uin=xxx; skey=xxx'
-
-        更新cookie
-            'RK=; ptcz=; openId=; accessToken=; newuin=',
+        :return: 'RK=xxx; ptcz=xxx; openId=xxx; accessToken=xxx; newuin=xxx'
         '''
         ck = ''
         for key in ['RK', 'ptcz', 'openId', 'accessToken', 'newuin']:
             try:
-                result = re.search(f'{key}=(.*?); ',f'{cookie}; ',re.S).group(0)
+                result = re.search(
+                    f'{key}=(.*?); ',
+                    f'{cookie}; ',
+                    re.S
+                ).group(0)
             except AttributeError:
                 raise CookieError(f'大乐斗cookie不正确：{cookie}')
             ck += f'{result}'
         return ck[:-2]
 
     def _match_qq(self) -> str:
-        '''
-        从cookie中提取出qq
-
-        提取方式变更 uin -> newuin
-        '''
-
-        return re.search(f'newuin=(\d+)',  self._cookie, re.S).group(1)
+        '''从cookie中提取出qq'''
+        return re.search(r'newuin=(\d+)', self._cookie, re.S).group(1)
 
     def _create_yaml(self):
         '''基于 daledou.yaml 创建一份以qq命名的 yaml 配置文件
