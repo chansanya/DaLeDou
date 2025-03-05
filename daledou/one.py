@@ -336,6 +336,19 @@ def 乐斗():
         if "体力值不足" in D.html:
             break
 
+    # 乐斗好友
+    yaml: dict = D.yaml["乐斗"]
+    start = yaml["start"]
+    end = yaml["end"]
+
+    for i in range(start, end):
+        D.get(f'cmd=friendlist&page={i}')
+        for u in D.findall(r'：.*?B_UID=(\d+)'):
+            D.get(f'cmd=fight&B_UID={u}')
+            D.msg_append(D.find(r"删</a><br />(.*?)，"))
+            if "体力值不足" in D.html:
+                break
+
     # 帮友BOSS
     D.get("cmd=viewmem&page=1")
     for u in D.findall(r"侠：.*?B_UID=(\d+)"):
