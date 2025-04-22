@@ -80,3 +80,4 @@ def run_serve():
 
 if __name__ == "__main__":
     run_serve()
+    # run_other(['强化'])

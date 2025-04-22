@@ -7,7 +7,6 @@ python main.py --other 神装
 
 from daledou.utils import yield_dld_objects
 
-
 _FUNC_NAME = [
     "神装",
     "夺宝奇兵",
@@ -20,6 +19,7 @@ _FUNC_NAME = [
     "仙武修真",
     "佣兵",
     "背包",
+    "强化",
 ]
 
 
@@ -28,6 +28,7 @@ def check_func_name_existence(func_name: str):
     判断函数名称是否存在
     """
     if func_name not in _FUNC_NAME:
+        print(f"当前模式:{func_name}")
         print("other 模式支持以下参数：")
         for i in _FUNC_NAME:
             print(i)
@@ -51,7 +52,6 @@ def run_other(unknown_args: list):
             D.func_name = func_name
             D.msg_append(f"\n【{func_name}】")
             globals()[func_name]()
-
         print("--" * 20)
 
 
@@ -364,7 +364,7 @@ class ShenZhuang:
             "积分": f"{store_points}（{store_num}）",
             "满祝福消耗数量": f"{full_value_consume_num}（必成再+{consume_num}）",
             "是否升级": (possess_num + store_num)
-            >= (full_value_consume_num + consume_num),
+                        >= (full_value_consume_num + consume_num),
         }
 
     def upgrade(self, name: str):
@@ -1106,7 +1106,7 @@ class LingShouPian:
                 "满祝福消耗数量": f"{full_value_number}（必成再+{consume_num}）",
                 "失败祝福值": self.fail_value,
                 "是否升级": (possess_num + store_num)
-                >= (full_value_number + consume_num),
+                            >= (full_value_number + consume_num),
             }
         return data
 
@@ -1208,7 +1208,7 @@ class GuZhenPian:
                 "突破石拥有数量": t_possess_num,
                 "积分": f"{self.points}（{t_store_num}）",
                 "是否升级": ((t_possess_num + t_store_num) >= t_consume_num)
-                and (s_possess_num >= s_consume_num),
+                            and (s_possess_num >= s_consume_num),
             }
         return data
 
@@ -1249,6 +1249,54 @@ class GuZhenPian:
         D.get(f"cmd=ancient_gods&op=7&id={_id}")
         D.find(name=name)
 
+
+def 强化():
+    # 升级
+    skill_dict = {
+        '企鹅挠痒': [2117, 2028],
+        '胶水': [2127, 2023],
+        '人品爆发': [2183, 2179],
+        '装死': [2964, 2019],
+        '师傅驾到': [2955, 2029],
+        '第六感': [2934, 2008],
+        '大海无量': [2892, 2012],
+        '天残脚': [2821, 2817],
+        '残影': [2815, 2021],
+        '缴械': [2810, 2020],
+        '无影手': [2766, 2010],
+        '易筋经': [2632, 2080],
+        '太极拳法': [2627, 2623],
+        '凌波微步': [2621, 2014],
+        '强健身躯': [2616, 2004],
+        '霸气护体': [2611, 2011],
+        '剑客之灵': [2477, 2473],
+        '点穴': [2471, 2467],
+        '武器好手': [2465, 2006],
+        '猛将之力': [2297, 2293],
+        '黯然一击': [2251, 2081],
+        '刺客之术': [2246, 2242],
+        '冲击波': [2210, 2206],
+        '惯用重物': [2202, 2017],
+        '气功': [2189, 2185],
+        '冲锋': [2133, 2129],
+        '神来一击': [2122, 2018],
+        '势如暴雨': [2111, 2026],
+        '晴天霹雳': [2102, 2009],
+        '皮糙肉厚': [2089, 2013],
+        '天使之翼': [2055, 2024]
+    }
+
+    skill_name = "冲锋"
+    print(f"当前强化技能:{skill_name} =>{skill_dict[skill_name]}")
+    n = 0
+    while True:
+        n += 1
+        D.get(f"zapp_uin=&sid=&channel=0&g_ut=1&cmd=update&id={skill_dict[skill_name][1]}")
+        print(f"强化次数{n},耗材:{n * 5}")
+        if "升级失败" not in D.html:
+            print("强化成功")
+            print( f"查看技能 https://dld.qzapp.z.qq.com/qpet/cgi-bin/phonepk?zapp_uin=&sid=&channel=0&g_ut=1&cmd=view&type=5&id={skill_dict[skill_name][0]}")
+            break
 
 def 神魔录():
     """
@@ -1328,7 +1376,7 @@ class AoYi:
             "满祝福消耗数量": f"{full_value_consume_num}（必成再+{consume_num}）",
             "失败祝福值": self.fail_value,
             "是否升级": (possess_num + store_num)
-            >= (full_value_consume_num + consume_num),
+                        >= (full_value_consume_num + consume_num),
         }
         return data
 
@@ -1436,7 +1484,7 @@ class JiNengLan:
                 "满祝福消耗数量": f"{full_value_consume_num}（必成再+{consume_num}）",
                 "失败祝福值": fail_value,
                 "是否升级": (possess_num + store_num)
-                >= (full_value_consume_num + consume_num),
+                            >= (full_value_consume_num + consume_num),
             }
         return data
 
