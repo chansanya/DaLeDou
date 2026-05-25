@@ -29,7 +29,7 @@ def c_问鼎天下(D):
         D.msg_append(D.find())
 
     # 1东海 2南荒 3西泽 4北寒
-    D.get("cmd=tbattle&op=showregion&region=1")
+    D.get("cmd=tbattle&op=showregion&region=3")
     # 攻占 倒数第一个
     if _id := D.findall(r"id=(\d+).*?攻占</a>"):
         D.get(f"cmd=tbattle&op=occupy&id={_id[-1]}&region=1")
